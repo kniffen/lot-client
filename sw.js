@@ -8,6 +8,7 @@ self.addEventListener('activate', event => {
   self.registration.showNotification('Up and running', {
     body: 'Test!!!',
     vibrate: [200, 100, 200, 100, 200, 100, 200],
+    tag: 'foo',
     renotify: true,
     requireInteraction: true
   }).then(() => console.log('Sent the thing'))
@@ -17,6 +18,7 @@ self.addEventListener('activate', event => {
       body: 'Test!!',
       vibrate: [200, 100, 200, 100, 200, 100, 200],
       renotify: true,
+      tag: 'bar',
       requireInteraction: true
     }).then(() => console.log('Sent the Pingu!'))
   }, 10_000)
@@ -38,7 +40,8 @@ self.addEventListener('push', event => {
         body: 'Test!!!',
         vibrate: [200, 100, 200, 100, 200, 100, 200],
         renotify: true,
-        requireInteraction: true
+        requireInteraction: true,
+        tag: 'baz',
     };
     console.log('notification', options);
     event.waitUntil(
