@@ -23,6 +23,7 @@ self.addEventListener('push', event => {
         icon: 'icons/512.png',
         badge: 'icons/512.png'
     };
+    console.log('notification', options, Notification.permission);
     event.waitUntil(
       self.registration.showNotification(data.title, options)
     );
