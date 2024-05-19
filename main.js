@@ -21,7 +21,7 @@ const subscribeUser = (sw) => {
   }).then((subscription) => {
       console.log('User is subscribed:', subscription);
       const subUrl = new URL(`${apiUrl}/subscribe/${location.search.toString()}`);
-      fetch(subUrl, { method: 'POST', body: subscription})
+      fetch(subUrl, { method: 'POST', body: JSON.stringify(subscription)})
         .then(console.log)
         .catch(console.error);
   }).catch((err) => {
