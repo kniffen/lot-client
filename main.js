@@ -5,7 +5,9 @@ const vapid = searchParams.get('vapid');
 navigator.serviceWorker?.register('/sw.js')
   .then(reg  => {
     console.log('registered', reg)
-    subscribeUser(reg);
+    Notification.requestPermission().then(() => {
+      subscribeUser(reg);
+    })
   })
   .catch((e) => console.error(e, 'registration failed'))
 
