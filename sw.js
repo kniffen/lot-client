@@ -11,6 +11,15 @@ self.addEventListener('activate', event => {
     renotify: true,
     requireInteraction: true
   }).then(() => console.log('Sent the thing'))
+
+  setInterval(() => {
+    self.registration.showNotification('interval', {
+      body: 'Test!!',
+      vibrate: [200, 100, 200, 100, 200, 100, 200],
+      renotify: true,
+      requireInteraction: true
+    }).then(() => console.log('Sent the Pingu!'))
+  }, 10_000)
 });
 
 self.addEventListener('message', event => {
