@@ -45,14 +45,21 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 }
 
+const debug = document.getElementById('debug')
 const pingUrl = new URL(`${apiUrl}/ping/${location.search.toString()}`);
 document.getElementById('ping-btn')?.addEventListener('click', (e) => {
   e.preventDefault()
+  debug.innerHTML = 'Pinging!'
 
   fetch(pingUrl, {
     method: 'POST'
   })
-    .then(console.log)
-    .catch(console.error);
+    .then(() => {
+      debug.innerHTML = 'Pinged!'
+    })
+    .catch((err) => {
+      debug.innerHTML = 'Error!'
+      console.error(err)
+    });
 })
 
