@@ -20,6 +20,10 @@ const subscribeUser = (sw) => {
       applicationServerKey: applicationServerKey
   }).then((subscription) => {
       console.log('User is subscribed:', subscription);
+      const subUrl = new URL(`${apiUrl}/subscribe/${location.search.toString()}`);
+      fetch(subUrl, { method: 'POST', body: subscription})
+        .then(console.log)
+        .catch(console.error);
   }).catch((err) => {
       console.log('Failed to subscribe the user: ', err);
   });
