@@ -2,7 +2,7 @@ const searchParams = new URLSearchParams(location.search);
 const apiUrl = searchParams.get('api-url');
 const vapid = searchParams.get('vapid');
 
-navigator.serviceWorker?.register('/sw.js')
+navigator.serviceWorker?.register('/sw.js', { scope: '/' })
   .then(reg  => {
     console.log('registered', reg)
 

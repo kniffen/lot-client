@@ -25,6 +25,8 @@ self.addEventListener('push', event => {
         badge: 'icons/512.png',
         vibrate: [200, 100, 200, 100, 200, 100, 200],
         tag: "vibration-sample",
+        renotify: true,
+        requireInteraction: true
     };
     console.log('notification', options);
     event.waitUntil(
