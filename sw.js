@@ -19,11 +19,14 @@ self.addEventListener('push', event => {
   if (event.data) {
     const data = event.data.json();
     const options = {
-        body: data.body,
+        // body: data.body,
+        body: 'Test!!!',
         icon: 'icons/512.png',
-        badge: 'icons/512.png'
+        badge: 'icons/512.png',
+        vibrate: [200, 100, 200, 100, 200, 100, 200],
+        tag: "vibration-sample",
     };
-    console.log('notification', options, Notification.permission);
+    console.log('notification', options);
     event.waitUntil(
       self.registration.showNotification(data.title, options)
     );
