@@ -5,6 +5,7 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   console.log('Service Worker activating.');
+  self.registration.showNotification('Up and running').then(() => console.log('Sent the thing'))
 });
 
 self.addEventListener('message', event => {
