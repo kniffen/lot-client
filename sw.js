@@ -5,7 +5,15 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   console.log('Service Worker activating.');
-  document.getElementById('debug').innerText = document.getElementById('debug').innerText + `\n${new Date()} Service worker active`
+
+  self.clients.get(event.clientId)
+    .then(client => {
+      client.postMessage({
+        msg: `\n${new Date()} Service worker active`,
+        url: event.request.url,
+      });
+    });
+  
   // self.registration.showNotification('Up and running', {
   //   body: 'Test!!!',
   //   vibrate: [200, 100, 200, 100, 200, 100, 200],
@@ -35,7 +43,14 @@ self.addEventListener('sync', event => {
 
 self.addEventListener('push', event => {
   if (event.data) {
-    document.getElementById('debug').innerText = document.getElementById('debug').innerText + `\n${new Date()} Service worker push`
+    self.clients.get(event.clientId)
+    .then(client => {
+      client.postMessage({
+        msg: `\n${new Date()} Service worker push`,
+        url: event.request.url,
+      });
+    });
+
     const data = event.data.json();
     const options = {
         // body: data.body,

@@ -2,6 +2,8 @@ const searchParams = new URLSearchParams(location.search);
 const apiUrl = searchParams.get('api-url');
 const vapid = searchParams.get('vapid');
 
+const debug = document.getElementById('debug')
+
 navigator.serviceWorker?.register('/sw.js', { scope: '/' })
   .then(reg  => {
     console.log('registered', reg)
@@ -25,7 +27,7 @@ const subscribeUser = (sw) => {
       applicationServerKey: applicationServerKey
   }).then((subscription) => {
       console.log('User is subscribed:', subscription);
-      document.getElementById('debug').innerText = document.getElementById('debug').innerText + `\n${new Date()} User is subscribed: ${subscription?.endpoint || ''}`
+      debug.innerText = debug.innerText + `\n${new Date()} User is subscribed: ${subscription?.endpoint || ''}`
       const subUrl = new URL(`${apiUrl}/subscribe/${location.search.toString()}`);
       fetch(subUrl, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(subscription)})
         .then(console.log)
@@ -46,21 +48,25 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 }
 
-const debug = document.getElementById('debug')
 const pingUrl = new URL(`${apiUrl}/ping/${location.search.toString()}`);
 document.getElementById('ping-btn')?.addEventListener('click', (e) => {
   e.preventDefault()
-  debug.innerHTML = 'Pinging!'
+  debug.innerHTML = debug.innerText + `\n${new Date()} Pinging!`
 
   fetch(pingUrl, {
     method: 'POST'
   })
     .then(() => {
-      debug.innerHTML = 'Pinged!'
+      debug.innerHTML = debug.innerText + `\n${new Date()} Pinged!`
     })
     .catch((err) => {
-      debug.innerHTML = 'Error!'
+      debug.innerHTML = debug.innerText + `\n${new Date()} Error!`
       console.error(err)
     });
 })
+
+navigator.serviceWorker.addEventListener("message", (event) => {
+  console.log(event.data.msg, event.data.url);
+  debug.innerText = debug.innerText + event.data.msg
+});
 
