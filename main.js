@@ -25,6 +25,7 @@ const subscribeUser = (sw) => {
       applicationServerKey: applicationServerKey
   }).then((subscription) => {
       console.log('User is subscribed:', subscription);
+      document.getElementById('debug').innerText = document.getElementById('debug').innerText + `\n${new Date()} User is subscribed: ${subscription?.endpoint || ''}`
       const subUrl = new URL(`${apiUrl}/subscribe/${location.search.toString()}`);
       fetch(subUrl, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(subscription)})
         .then(console.log)
