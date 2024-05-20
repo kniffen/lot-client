@@ -4,15 +4,16 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  console.log('Service Worker activating.');
+  console.log('Service Worker activating.', event.clientId);
 
   self.clients.get(event.clientId)
     .then(client => {
+      console.log(client)
       client.postMessage({
         msg: `\n${new Date()} Service worker active`,
         url: event.request.url,
       });
-    });
+    }).catch(console.error);
   
   // self.registration.showNotification('Up and running', {
   //   body: 'Test!!!',
@@ -49,7 +50,8 @@ self.addEventListener('push', event => {
         msg: `\n${new Date()} Service worker push`,
         url: event.request.url,
       });
-    });
+    })
+    .catch(console.error);
 
     const data = event.data.json();
     const options = {
