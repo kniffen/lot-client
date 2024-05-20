@@ -60,7 +60,7 @@ document.getElementById('ping-btn')?.addEventListener('click', (e) => {
       debug.innerHTML = debug.innerText + `\n${new Date()} Pinged!`
     })
     .catch((err) => {
-      debug.innerHTML = debug.innerText + `\n${new Date()} Error! ${err?.message || '???'}`
+      debug.innerHTML = debug.innerText + `\n${new Date()} Error! ${JSON.stringify(err, nul, 3) || '???'}`
       console.error(err)
     });
 })
