@@ -6,15 +6,24 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   console.log('Service Worker activating.', event.clientId);
 
-  self.clients.get(event.clientId)
-    .then(client => {
+  event.waitUntil(async () => {
+    try {
+      if (!event.clientId) {
+        console.error('Missing client Id')
+        return
+      }
+      const client = self.clients.get(event.clientId)
+
       console.log(client)
       client.postMessage({
         msg: `\n${new Date()} Service worker active`,
         url: event.request.url,
       });
-    }).catch(console.error);
-  
+    } catch (err) {
+      console.error(err)
+    }
+  })
+
   // self.registration.showNotification('Up and running', {
   //   body: 'Test!!!',
   //   vibrate: [200, 100, 200, 100, 200, 100, 200],
@@ -44,14 +53,23 @@ self.addEventListener('sync', event => {
 
 self.addEventListener('push', event => {
   if (event.data) {
-    self.clients.get(event.clientId)
-    .then(client => {
-      client.postMessage({
-        msg: `\n${new Date()} Service worker push`,
-        url: event.request.url,
-      });
+    event.waitUntil(async () => {
+      try {
+        if (!event.clientId) {
+          console.error('Missing client Id')
+          return
+        }
+        const client = self.clients.get(event.clientId)
+  
+        console.log(client)
+        client.postMessage({
+          msg: `\n${new Date()} Service worker push`,
+          url: event.request.url,
+        });
+      } catch (err) {
+        console.error(err)
+      }
     })
-    .catch(console.error);
 
     const data = event.data.json();
     const options = {
